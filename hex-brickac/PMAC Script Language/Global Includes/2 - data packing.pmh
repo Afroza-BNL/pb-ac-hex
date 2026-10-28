@@ -1,0 +1,10 @@
+Sys.WpKey = $AAAAAAAA 
+PowerBrick[0].Chan[0].PackOutData = 0 // Channel #1 Unpack Output Data
+PowerBrick[0].Chan[1].PackOutData = 0 // Channel #2 Unpack Output Data
+PowerBrick[0].Chan[2].PackOutData = 0 // Channel #3 Unpack Output Data
+PowerBrick[0].Chan[3].PackOutData = 0 // Channel #4 Unpack Output Data
+
+PowerBrick[0].Chan[0].PackInData = 0 // Channel #1 Unpack Input Data
+PowerBrick[0].Chan[1].PackInData = 0 // Channel #2 Unpack Input Data
+PowerBrick[0].Chan[2].PackInData = 0 // Channel #3 Unpack Input Data
+PowerBrick[0].Chan[3].PackInData = 0 // Channel #4 Unpack Input Data

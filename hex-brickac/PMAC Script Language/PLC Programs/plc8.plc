@@ -1,0 +1,163 @@
+// Power PMAC Homing PLC for Axis 1 With Encoder (PLC 8)
+
+// This homing routine will move to a limit, and then search for the encoder
+// reference mark.
+// The axis home velocity sign sets the direction for the final "home to reference
+// mark" move. The initial move to the limit will be in the opposite direction.
+// 
+// Jun Ma 202204
+// Based On Wayne Lewis Turbo PMAC Homing
+// 
+// P variables
+// P800 - homing state (homing, not homing)
+// P801 - homing status (limit search, home search, post-home move)
+// P802 - post-home move (0 = return to previous, 1 = stay at zero)
+
+// Homing State P Variable
+P800 = 0;
+
+// Homing Status P Variable
+P801 = 0;
+
+clear gather;
+clear plc 8;
+open plc 8;
+
+Sys.WpKey=$AAAAAAAA;
+
+P801 = 1;
+
+//---- Configuring State ----
+P800=1;
+//Save high soft limits to P variable Pxx02
+P804=Motor[1].MaxPos
+//Save the low soft limits to P variable Pxx20
+P820=Motor[1].MinPos
+//Save the home capture flags to P variable Pxx22
+P822=Gate3[0].Chan[0].CaptCtrl;
+//Save the limit flags to P variable Pxx28
+P828=Motor[1].pLimits;
+//Save the current position to P variable Pxx82
+P882=Motor[1].Pos-Motor[1].HomePos;
+//Clear the soft limits
+Motor[1].MaxPos=0;
+Motor[1].MinPos=0;
+
+if (P801 == 1){
+
+  //---- FastSearch State ----
+  // Move to the limit switch
+	if (P801==1){
+		P800=8;
+		// Execute the move commands
+		Motor[1].ProgJogPos=80000000*(-Motor[1].HomeVel/ABS(Motor[1].HomeVel));
+		cmd "#1J^*";
+		// Wait for the move to complete
+		Sys.CdTimer[1] = 20;
+		while (Sys.CdTimer[1] > 0){}
+		// Wait for the move to complete
+		// At least one motor should not be In Position
+		// No following errors should be set for any motor
+		// Check for timeout
+		// Check that we didn't abort
+		Sys.CdTimer[1] = 600000; // Now start checking the conditions
+		while((Motor[1].DesVel!=0) && (Motor[1].FeFatal==0) && (Sys.CdTimer[1]>0) && (P801==1)){}
+
+		// Check why we left the while loop
+		if (Motor[1].FeFatal==1) // If a motor hit a following error
+			P801 = 2;
+		if (Sys.CdTimer[1]<0 || Sys.CdTimer[1]==0) // If we timed out
+			P801 = 2;
+	}
+
+	// ---- Store the difference between current pos and start pos ----
+	if (P801==1)
+		P882 = P882-Motor[1].Pos+Motor[1].HomePos;
+
+	//---- Homing State ----
+	if (P801==1){
+		P800=2;
+
+		// Set the capture flag 
+		Gate3[0].Chan[0].CaptCtrl=1;
+		// Execute the move commands
+		cmd "#1hm";
+		// Wait for the move to complete
+		// Small delay to start moving
+		Sys.CdTimer[1] = 20;
+		while (Sys.CdTimer[1] > 0){}
+		// Wait for the move to complete
+		// At least one motor should not be In Position
+		// No following errors should be set for any motor
+		// Should not stop on position limit for selected motors
+	    // Check for timeout
+		Sys.CdTimer[1] = 600000; // Now start checking the conditions
+		while( (Motor[1].DesVel!=0) && (Motor[1].FeFatal==0) && (Motor[1].LimitStop==0) && (Sys.CdTimer[1] > 0) && (P801==1)) {}
+
+		// Check why we left the while loop
+		if (Motor[1].FeFatal==1) // If a motor hit a following error
+			P801 = 2;
+		if (Motor[1].LimitStop==1) // If a motor hit a limit
+			P801 = 2;
+		if (Sys.CdTimer[1]<0 || Sys.CdTimer[1]==0) // If we timed out
+			P801 = 2;
+	}
+
+	//---- Check if all motors have homed ----
+	if( (P801==1) && (Motor[1].HomeComplete==0) )
+		P801=2;
+
+	// ---- PostHomeMove State ----
+	if (P801==1){
+		// Check the type of post-home move
+		if (P802 == 0){
+		  P800=2;
+		  // Execute the move commands
+		  Motor[1].ProgJogPos=P882;
+		  cmd "#1J=*";
+		  // Small delay to start moving
+		  Sys.CdTimer[1] = 20;
+		  while (Sys.CdTimer[1] > 0){}
+		  Sys.CdTimer[1] = 600000; // Now start checking the conditions
+		  // Wait for the move to complete
+			// At least one motor should not be In Position
+			// No following errors should be set for any motor
+			 // Should not stop on position limit for selected motors
+			  // Check for timeout
+			   // Check that we didn't abort
+		  while( (Motor[1].DesVel!=0) && (Motor[1].FeFatal==0) && (Motor[1].LimitStop==0) && (Sys.CdTimer[1] > 0) && (P801 == 1)){}
+		  // Check why we left the while loop
+		  if (Motor[1].FeFatal==1) // If a motor hit a following error
+			P801 = 2;
+		  if (Motor[1].LimitStop==1) // If a motor hit a limit
+			P801 = 2;
+		  if (Sys.CdTimer[1]<0 || Sys.CdTimer[1]==0) // If we timed out
+			P801 = 2;
+		}
+ 	}
+}
+
+// ---- Done ----
+if (P801 == 1){
+	// If we've got this far without failing, set status and state done
+	P801=0;
+	P800=7;
+}
+
+// ---- Tidy Up ----
+// Stop all motors if they don't have a following error
+if (Motor[1].FeFatal==0)
+	cmd "#1J/";
+
+// Restore the high soft limits from P variables Pxx02..x18
+Motor[1].MaxPos=P804;
+// Restore the low soft limits from P variables Pxx20..x22
+Motor[1].MinPos=P820;
+// Restore the home capture flags from P variables Pxx22..x21
+Gate3[0].Chan[0].CaptCtrl=P822;
+// Restore the limit flags to P variables Pxx28..x82
+Motor[1].pLimits=P828;
+
+Sys.WpKey=0;
+DISABLE PLC 8;
+CLOSE

@@ -1,0 +1,21 @@
+// Use if motor voltage >= bus voltage
+Motor[1].PwmSf = 0.95 * 16384
+Motor[2].PwmSf = 0.95 * 16384
+Motor[3].PwmSf = 0.95 * 16384
+Motor[4].PwmSf = 0.95 * 16384
+
+
+/*
+// Use if motor voltage < bus voltage
+GLOBAL DcBusInput = 340; // DC Bus input voltage [VDC] –User Input
+
+GLOBAL Mtr1DCVoltage = 170; // Motor #1 DC rated voltage [VDC] –User Input
+GLOBAL Mtr2DCVoltage = 170; // Motor #2 DC rated voltage [VDC] –User Input
+GLOBAL Mtr3DCVoltage = 170; // Motor #3 DC rated voltage [VDC] –User Input
+GLOBAL Mtr4DCVoltage = 170; // Motor #4 DC rated voltage [VDC] –User Input
+
+Motor[1].PwmSf = 0.95 * 16384 * Mtr1DCVoltage / DcBusInput
+Motor[2].PwmSf = 0.95 * 16384 * Mtr2DCVoltage / DcBusInput
+Motor[3].PwmSf = 0.95 * 16384 * Mtr3DCVoltage / DcBusInput
+Motor[4].PwmSf = 0.95 * 16384 * Mtr4DCVoltage / DcBusInput
+*/

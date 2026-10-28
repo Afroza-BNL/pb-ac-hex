@@ -1,0 +1,6 @@
+BrickAC.SinglePhaseIn = 0 // For three phase AC input operation, For single phase AC operation set it to 1
+
+BrickLV.Chan[0].I2tWarnOnly = 0 // Motor #1 Amp I2T action, kill motor & display fault
+BrickLV.Chan[1].I2tWarnOnly = 0 // Motor #2 Amp I2T action, kill motor & display fault
+BrickLV.Chan[2].I2tWarnOnly = 0 // Motor #3 Amp I2T action, kill motor & display fault
+BrickLV.Chan[3].I2tWarnOnly = 0 // Motor #4 Amp I2T action, kill motor & display fault

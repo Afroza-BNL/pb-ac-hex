@@ -1,0 +1,51 @@
+// MOTOR #1
+Motor[1].ServoCtrl = 0
+Motor[1].pEnc = EncTable[1].a
+Motor[1].pEnc2 = EncTable[1].a
+Motor[1].pLimits = PowerBrick[0].Chan[0].Status.a // =0 if limits are not wired 
+Motor[1].AdcMask = $FFFC0000 
+Motor[1].AmpFaultLevel = 1 
+Motor[1].PhaseCtrl = 4 
+Motor[1].PhaseOffset = 683 
+
+//quadrature (rotary) encoder
+Motor[1].pPhaseEnc = PowerBrick[0].Chan[0].PhaseCapt.a
+Motor[1].PhaseEncLeftshift = 0
+Motor[1].PhaseEncRightshift = 0
+Motor[1].PhasePosSf = 2048*4/(256*72000)
+
+//Phase Search algorithm
+GLOBAL Mtr1PhasingTime = 3000; // Total phasing time [msec] --User Input
+Motor[1].PhaseFindingTime = Mtr1PhasingTime * 0.5 / (Sys.ServoPeriod * (Sys.RtIntPeriod + 1))
+Motor[1].PhaseFindingDac = Motor[1].I2TSet	// Phasing search magnitude --User Input
+Motor[1].AbsPhasePosOffset = 2048 / 5		// Qualifying motor movement
+
+//abs encoder parameters
+Motor[1].pAbsPos = 0
+Motor[1].pAbsPhasePos = 0
+Motor[1].AbsPosFormat = 0
+Motor[1].AbsPosSf = 1                  
+
+Motor[1].HomeOffset = 0
+Motor[1].PhaseMode = 1
+Motor[1].PowerOnMode = 2
+
+Motor[1].Servo.MaxPosErr = 100000
+Motor[1].SlipGain = 0
+Motor[1].AdvGain = 0
+
+Motor[1].Servo.Kp = 16
+Motor[1].Servo.Kvff = 3000
+Motor[1].Servo.Kaff = 0
+Motor[1].Servo.Kvfb = 3200
+Motor[1].Servo.Ki = 0
+Motor[1].Servo.Kvifb = 0
+Motor[1].Servo.Kviff = 0
+Motor[1].Servo.BreakPosErr=0.5
+Motor[1].IiGain=8
+Motor[1].IpfGain=50
+Motor[1].IpbGain=0
+
+Motor[1].JogSpeed=5
+Motor[1].JogTa=500
+Motor[1].JogTs=150

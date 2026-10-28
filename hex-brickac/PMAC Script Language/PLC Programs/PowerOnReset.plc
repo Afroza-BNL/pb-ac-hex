@@ -1,0 +1,39 @@
+open plc PowerOnResetPLC
+Sys.WDTReset = 5000 / (Sys.ServoPeriod * 2.258)
+CALL DelayTimer.msec(5)
+
+BrickAC.Reset = 1
+CALL DelayTimer.msec(5)
+
+WHILE (BrickAC.Reset == 1){}
+IF (BrickAC.Reset == 0)
+{
+	// HOUSEKEEPING
+	PowerBrick[0].Chan[0].CountError = 0
+	PowerBrick[0].Chan[1].CountError = 0
+	PowerBrick[0].Chan[2].CountError = 0
+	PowerBrick[0].Chan[3].CountError = 0
+
+	Sys.MaxPhaseTime = 0
+	Sys.MaxServoTime = 0
+	Sys.MaxRtIntTime = 0
+	Sys.MaxBgTime = 0
+	CALL DelayTimer.msec(5)
+	
+	// HERE, ENABLE SUBSEQUENT APPLICATION PLCs
+
+	Sys.WDTReset = 0
+	DISABLE PLC PowerOnResetPLC
+	CALL DelayTimer.msec(5)
+}
+ELSE
+{
+	// RESET FAILED? TAKE ACTION
+	KILL 1..4
+	DISABLE PLC 0,2..31
+	SEND 1"BRICK AC RESET FAILED !!!"
+	Sys.WDTReset = 0
+	DISABLE PLC PowerOnResetPLC
+	CALL DelayTimer.msec(5)
+}
+CLOSE											

@@ -1,0 +1,116 @@
+//Encoder decode control. Set to 3 or 7 depending on direction
+Sys.WpKey=$aaaaaaaa;
+
+PowerBrick[0].Chan[0].EncCtrl=3
+PowerBrick[0].Chan[1].EncCtrl=3
+PowerBrick[0].Chan[2].EncCtrl=3
+PowerBrick[0].Chan[3].EncCtrl=3
+
+//Standard entries for quadrature encoders
+EncTable[1].type=1
+EncTable[1].pEnc=PowerBrick[0].Chan[0].ServoCapt.a
+EncTable[1].pEnc1=Sys.pushm
+EncTable[1].MaxDelta=0
+EncTable[1].index1=0
+EncTable[1].index2=0
+EncTable[1].index3=0
+EncTable[1].index4=0
+EncTable[1].index5=0
+EncTable[1].index6=0
+EncTable[1].ScaleFactor=0.00390625
+
+EncTable[2].type=1
+EncTable[2].pEnc=PowerBrick[0].Chan[1].ServoCapt.a
+EncTable[2].pEnc1=Sys.pushm
+EncTable[2].MaxDelta=0
+EncTable[2].index1=0
+EncTable[2].index2=0
+EncTable[2].index3=0
+EncTable[2].index4=0
+EncTable[2].index5=0
+EncTable[2].index6=0
+EncTable[2].ScaleFactor=0.00390625
+
+EncTable[3].type=1
+EncTable[3].pEnc=PowerBrick[0].Chan[2].ServoCapt.a
+EncTable[3].pEnc1=Sys.pushm
+EncTable[3].MaxDelta=0
+EncTable[3].index1=0
+EncTable[3].index2=0
+EncTable[3].index3=0
+EncTable[3].index4=0
+EncTable[3].index5=0
+EncTable[3].index6=0
+EncTable[3].ScaleFactor=0.00390625
+
+EncTable[4].type=1
+EncTable[4].pEnc=PowerBrick[0].Chan[3].ServoCapt.a
+EncTable[4].pEnc1=Sys.pushm
+EncTable[4].MaxDelta=0
+EncTable[4].index1=0
+EncTable[4].index2=0
+EncTable[4].index3=0
+EncTable[4].index4=0
+EncTable[4].index5=0
+EncTable[4].index6=0
+EncTable[4].ScaleFactor=0.00390625
+
+
+
+EncTable[5].Type = 0
+/*
+//Entries for absolute encoder 28, 30, 31, 32 bit resolution BISS-C
+// Set global control register for BISS chan 1-4
+ACC84B[0].SerialEncCtrl = $63000B;			// Control word, 1 MHz clock, M=99, N=0
+
+
+// Typical setting: $211480 + number of encoder data bits
+
+Acc84B[0].Chan[0].SerialEncCmd = $21149C	//Command word for 28 bit
+Acc84B[0].Chan[1].SerialEncCmd = $21149E	//Command word for 30 bit
+Acc84B[0].Chan[2].SerialEncCmd = $21149F	//Command word for 31 bit
+Acc84B[0].Chan[3].SerialEncCmd = $2114A0	//Command for 32 bit
+
+
+// Encoder conversion table extension for absolute encoder  channel 1-4
+// MSB is left shifted to bit 31 of register, after clearing lower 8 junk bits
+
+// 28 bits
+EncTable[5].Type = 1
+EncTable[5].pEnc = Acc84B[0].Chan[0].SerialEncDataA.a 
+EncTable[5].index1 = 12    // Shift left
+EncTable[5].index2 = 8     // Shift right
+EncTable[5].index3 = 0
+EncTable[5].index4 = 0
+EncTable[5].index5 = 0
+EncTable[5].ScaleFactor = 1/exp2(12)  // exp2(index1)
+
+// 30 bits
+EncTable[6].Type = 1
+EncTable[6].pEnc = Acc84B[0].Chan[1].SerialEncDataA.a
+EncTable[6].index1 = 10    // Shift left
+EncTable[6].index2 = 8     // Shift right
+EncTable[6].index3 = 0
+EncTable[6].index4 = 0
+EncTable[6].index5 = 0
+EncTable[6].ScaleFactor = 1/exp2(10)  // exp2(index1)
+
+// 31 bits
+EncTable[7].Type = 1
+EncTable[7].pEnc = Acc84B[0].Chan[2].SerialEncDataA.a
+EncTable[7].index1 = 9
+EncTable[7].index2 = 8                                
+EncTable[7].index3 = 0
+EncTable[7].index4 = 0
+EncTable[7].index5 = 0
+EncTable[7].ScaleFactor = 1/exp2(8)  // exp2(index1)
+
+// 32 bits
+EncTable[8].Type = 1
+EncTable[8].pEnc = Acc84B[0].Chan[3].SerialEncDataA.a
+EncTable[8].index1 = 8
+EncTable[8].index2 = 8                                
+EncTable[8].index3 = 0
+EncTable[8].index4 = 0
+EncTable[8].index5 = 0
+EncTable[8].ScaleFactor = 1/exp2(8)

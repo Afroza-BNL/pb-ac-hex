@@ -1,0 +1,40 @@
+// For RMS values
+GLOBAL ChMaxAdc		= 15.625;		// Max ADC reading [A peak] -–User Input
+GLOBAL ChTimeAtPeak = 1;			// Time Allowed at peak [sec] --User Input
+
+GLOBAL Ch1RmsPeakCur = 3.2;			// RMS Peak Current [A rms] -–User Input
+GLOBAL Ch1RmsContCur = 2.5;			// RMS Continuous Current [A rms] --User Input
+
+GLOBAL Ch2RmsPeakCur = 0.5;			// RMS Peak Current [A rms] -–User Input
+GLOBAL Ch2RmsContCur = 0.2;			// RMS Continuous Current [A rms] --User Input
+
+GLOBAL Ch3RmsPeakCur = 0.5;			// RMS Peak Current [A rms] -–User Input
+GLOBAL Ch3RmsContCur = 0.2;			// RMS Continuous Current [A rms] --User Input
+
+GLOBAL Ch4RmsPeakCur = 0.5;			// RMS Peak Current [A rms] -–User Input
+GLOBAL Ch4RmsContCur = 0.2;			// RMS Continuous Current [A rms] --User Input
+
+
+GLOBAL Ch1TempMaxDac = Ch1RmsPeakCur * 46340 / ChMaxAdc
+Motor[1].I2TSet = Ch1RmsContCur * 46340 / ChMaxAdc
+Motor[1].I2tTrip = (POW(Ch1TempMaxDac,2) - POW(Motor[1].I2TSet,2)) * ChTimeAtPeak
+Motor[1].MaxDac = Ch1TempMaxDac
+//Motor[1].IdCmd = 0
+
+GLOBAL Ch2TempMaxDac = Ch2RmsPeakCur * 46340 / ChMaxAdc
+Motor[2].I2TSet = Ch2RmsContCur * 46340 / ChMaxAdc
+Motor[2].I2tTrip = (POW(Ch2TempMaxDac,2) - POW(Motor[2].I2TSet,2)) * ChTimeAtPeak
+Motor[2].MaxDac = Ch2TempMaxDac
+//Motor[2].IdCmd = 0
+
+GLOBAL Ch3TempMaxDac = Ch3RmsPeakCur * 46340 / ChMaxAdc
+Motor[3].I2TSet = Ch3RmsContCur * 46340 / ChMaxAdc
+Motor[3].I2tTrip = (POW(Ch3TempMaxDac,2) - POW(Motor[3].I2TSet,2)) * ChTimeAtPeak
+Motor[3].MaxDac = Ch3TempMaxDac
+//Motor[3].IdCmd = 0
+
+GLOBAL Ch4TempMaxDac = Ch4RmsPeakCur * 46340 / ChMaxAdc
+Motor[4].I2TSet = Ch4RmsContCur * 46340 / ChMaxAdc
+Motor[4].I2tTrip = (POW(Ch4TempMaxDac,2) - POW(Motor[4].I2TSet,2)) * ChTimeAtPeak
+Motor[4].MaxDac = Ch4TempMaxDac
+//Motor[4].IdCmd = 0

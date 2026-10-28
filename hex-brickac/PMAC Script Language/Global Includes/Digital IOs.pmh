@@ -1,0 +1,28 @@
+// X15 INPUTS
+PTR Input1->PowerBrick[0].GpioData[0].0.1 			// Input #1, X15 Pin#1
+PTR Input2->PowerBrick[0].GpioData[0].1.1 			// Input #2, X15 Pin#20
+PTR Input3->PowerBrick[0].GpioData[0].2.1 			// Input #3, X15 Pin#2
+PTR Input4->PowerBrick[0].GpioData[0].3.1 			// Input #4, X15 Pin#21
+PTR Input5->PowerBrick[0].GpioData[0].4.1 			// Input #5, X15 Pin#3
+PTR Input6->PowerBrick[0].GpioData[0].5.1 			// Input #6, X15 Pin#22
+PTR Input7->PowerBrick[0].GpioData[0].6.1 			// Input #7, X15 Pin#4
+PTR Input8->PowerBrick[0].GpioData[0].7.1 			// Input #8, X15 Pin#23
+PTR Input9->PowerBrick[0].GpioData[0].8.1 			// Input #9, X15 Pin#5
+PTR Input10->PowerBrick[0].GpioData[0].9.1			// Input #10, X15 Pin#24
+PTR Input11->PowerBrick[0].GpioData[0].10.1 		// Input #11, X15 Pin#6
+PTR Input12->PowerBrick[0].GpioData[0].11.1 		// Input #12, X15 Pin#25
+PTR Input13->PowerBrick[0].GpioData[0].12.1 		// Input #13, X15 Pin#7
+PTR Input14->PowerBrick[0].GpioData[0].13.1 		// Input #14, X15 Pin#26
+PTR Input15->PowerBrick[0].GpioData[0].14.1 		// Input #15, X15 Pin#8
+PTR Input16->PowerBrick[0].GpioData[0].15.1 		// Input #16, X15 Pin#27
+
+// X15 OUTPUTS																Sourcing	Sinking
+PTR Output1->PowerBrick[0].GpioData[0].16.1 		// Output #1, X15		Pin#12 		Pin#30
+PTR Output2->PowerBrick[0].GpioData[0].17.1 		// Output #2, X15		Pin#13 		Pin#31
+PTR Output3->PowerBrick[0].GpioData[0].18.1 		// Output #3, X15		Pin#14 		Pin#32
+PTR Output4->PowerBrick[0].GpioData[0].19.1 		// Output #4, X15		Pin#15 		Pin#33
+PTR Output5->PowerBrick[0].GpioData[0].20.1 		// Output #5, X15		Pin#16 		Pin#34
+PTR Output6->PowerBrick[0].GpioData[0].21.1 		// Output #6, X15		Pin#17 		Pin#35
+PTR Output7->PowerBrick[0].GpioData[0].22.1 		// Output #7, X15		Pin#18 		Pin#36
+PTR Output8->PowerBrick[0].GpioData[0].23.1 		// Output #8, X15		Pin#19 		Pin#37
+
