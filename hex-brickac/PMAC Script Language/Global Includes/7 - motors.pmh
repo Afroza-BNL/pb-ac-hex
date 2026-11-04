@@ -3,7 +3,7 @@ Motor[1].ServoCtrl = 0
 Motor[1].pEnc = EncTable[1].a
 Motor[1].pEnc2 = EncTable[1].a
 Motor[1].pLimits = PowerBrick[0].Chan[0].Status.a // =0 if limits are not wired 
-Motor[1].AdcMask = $FFFC0000 
+Motor[1].AdcMask = $FFF00000   // Mask for PowerBrick AC
 Motor[1].AmpFaultLevel = 1 
 Motor[1].PhaseCtrl = 4 
 Motor[1].PhaseOffset = 683 
