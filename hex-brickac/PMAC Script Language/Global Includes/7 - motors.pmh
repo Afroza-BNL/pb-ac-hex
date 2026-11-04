@@ -15,7 +15,7 @@ Motor[1].PhaseEncRightshift = 0
 Motor[1].PhasePosSf = 2048*4/(256*72000)
 
 //Phase Search algorithm
-GLOBAL Mtr1PhasingTime = 3000; // Total phasing time [msec] --User Input
+GLOBAL Mtr1PhasingTime = 1000; // Total phasing time [msec] --User Input
 Motor[1].PhaseFindingTime = Mtr1PhasingTime * 0.5 / (Sys.ServoPeriod * (Sys.RtIntPeriod + 1))
 Motor[1].PhaseFindingDac = Motor[1].I2TSet / 2	// Phasing search magnitude --User Input
 Motor[1].AbsPhasePosOffset = 2048 / 5		// Qualifying motor movement
